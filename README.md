@@ -11,32 +11,65 @@ You need to create a Cloudera datasource outside of the teiid designer in order 
 
 Run the `cli.sh` script with the `add all` option to create and/or remove the module,driver and datasource.  You need to set the path to your **jboss home directory** in the **cli.sh** script  You will also need to tweak the **cli/add-ds.cli** for your specific hive connection information.
 
+![cli.png](images/cli.png)
+
+
+To verify the datasource is correct, test the datasource connection in the [jboss admin console](http://localhost:9990/console).
+
+![cli.png](images/ds-test.png)
+
 ### Connect Hive to JDV
 * new -> teiid model project
 * server panel -> start the jdv server. Make sure the admin and jdbc connections are set with the proper user/pass
+
+![cli.png](images/eap-settings.png)
+
 * file -> import -> teiid connection >> source model
 * select the **HiveDS** that was created by the script, next
 * make sure the hive translator is selected, next
+
+![cli.png](images/translator.png)
+
 * name the source model: HiveDS, next
 * you should see the sample ddl, next
+
+![cli.png](images/ddl.png)
+
 * for this example we are only going to import the **customers** table
 
 ### Edit the Source Model
 * on the new datasource model, right-click and select new child -> primary key (pk_id)
+
+![cli.png](images/source1.png)
+
 * in the properties for the pk_id, reference the id column
+
+![cli.png](images/source2.png)
+
 * in the properties for the id column, select **no nulls** for the nullable property
 * set the length field for all the other properties to **255**
 * after saving there should no longer be any warnings on your model
+
+![cli.png](images/source3.png)
+
 * verify the source model, right-click and select modeling -> preview data. the SQL Results pane will show the data
+
+![cli.png](images/source4.png)
 
 ### Create the View Model
 * file -> new -> teiid metadata model
 * Name: HiveView, model class: relational, model type: view. Select transform from existing model and next
+
+![cli.png](images/view1.png)
+
 * Select the HiveDS model and finish
 
 ### Deploy the VDB
 * file -> new -> teiid vdb
 * select the HiveView to add and finish. As of this post you will need to do the [Fix](#special) instructions to fix a bug.
+
+![cli.png](images/vdb1.png)
+
 * right-click the vdb select modeling -> deploy
 
 ### Consume the data via REST
@@ -44,7 +77,13 @@ Run the `cli.sh` script with the `add all` option to create and/or remove the mo
 * An example url for a local server is (http://localhost:8080/odata4/HiveVDB/HiveView/customers?$count=true)
 * You will need to set the basic auth params to connect
 
+![cli.png](images/postman.png)
+
 
 ### Fix<a name="special"></a>
 
 There is currently a performance bug in the hive translator.  To fix you need to create an override in your VDB for the hive translator and set the **orderBy** option to **false**.  Then in your VDB select the overriden translator for the **HiveDS** model.
+
+![cli.png](images/override1.png)
+
+![cli.png](images/override2.png)
