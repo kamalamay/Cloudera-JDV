@@ -1,0 +1,4 @@
+connect
+data-source add --name=HiveDS --jndi-name=java:/HiveDS --connection-url=jdbc:hive2://10.2.2.5:10000/default --driver-name=hive2 --user-name=cloudera --password=cloudera
+data-source enable --name=HiveDS
+\q

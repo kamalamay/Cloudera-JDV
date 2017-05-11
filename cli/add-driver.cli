@@ -1,0 +1,2 @@
+/subsystem=datasources/jdbc-driver=hive2:add(driver-name=hive2,driver-module-name=com.cloudera.hive.jdbc41,driver-class-name=com.cloudera.hive.jdbc41.HS2Driver)
+\q

@@ -1,0 +1,3 @@
+/subsystem=datasources/jdbc-driver=hive2:remove
+/:reload
+\q

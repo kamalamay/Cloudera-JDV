@@ -1,0 +1,4 @@
+connect
+data-source disable --name=HiveDS
+data-source remove --name=HiveDS
+\q

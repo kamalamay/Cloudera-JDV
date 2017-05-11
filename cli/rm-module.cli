@@ -1,0 +1,3 @@
+connect
+module remove --name=com.cloudera.hive.jdbc41
+\q
