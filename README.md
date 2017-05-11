@@ -1,5 +1,12 @@
 ## Connecting Cloudera Hive to JBoss Data Virtualization
 
+1. [Connect Hive to JDV](#connect)
+2. [Edit the Source Model](#source)
+3. [Create the View Model](#view)
+4. [Deploy the VDB](#deploy)
+5. [Consume the data via REST](#consume)
+6. [Special](#fix)
+
 This guide is a follow on to [Unlock your Hadoop data with Hortonworks and Red Hat JBoss Data Virtualization](https://developers.redhat.com/blog/2016/11/16/unlock-your-hadoop-data-with-hortonworks-and-red-hat-jboss-data-virtualization/). That guide covered a Hortonworks implementation whereas this guide will cover a Cloudera based implementation.
 
 ### Setup
@@ -18,7 +25,7 @@ To verify the datasource is correct, test the datasource connection in the [jbos
 
 ![cli.png](images/ds-test.png)
 
-### Connect Hive to JDV
+### Connect Hive to JDV<a name="connect"></a>
 * new -> teiid model project
 * server panel -> start the jdv server. Make sure the admin and jdbc connections are set with the proper user/pass
 
@@ -37,7 +44,7 @@ To verify the datasource is correct, test the datasource connection in the [jbos
 
 * for this example we are only going to import the **customers** table
 
-### Edit the Source Model
+### Edit the Source Model<a name="source"></a>
 * on the new datasource model, right-click and select new child -> primary key (pk_id)
 
 ![cli.png](images/source1.png)
@@ -56,7 +63,7 @@ To verify the datasource is correct, test the datasource connection in the [jbos
 
 ![cli.png](images/source4.png)
 
-### Create the View Model
+### Create the View Model<a name="view"></a>
 * file -> new -> teiid metadata model
 * Name: HiveView, model class: relational, model type: view. Select transform from existing model and next
 
@@ -64,15 +71,15 @@ To verify the datasource is correct, test the datasource connection in the [jbos
 
 * Select the HiveDS model and finish
 
-### Deploy the VDB
+### Deploy the VDB<a name="deploy"></a>
 * file -> new -> teiid vdb
-* select the HiveView to add and finish. As of this post you will need to do the [Fix](#special) instructions to fix a bug.
+* select the HiveView to add and finish. As of this post you will need to do the [Fix](#fix) instructions to fix a bug.
 
 ![cli.png](images/vdb1.png)
 
 * right-click the vdb select modeling -> deploy
 
-### Consume the data via REST
+### Consume the data via REST<a name="consume"></a>
 * For this example, [postman](https://www.getpostman.com/) was used to test
 * An example url for a local server is (http://localhost:8080/odata4/HiveVDB/HiveView/customers?$count=true)
 * You will need to set the basic auth params to connect
@@ -80,7 +87,7 @@ To verify the datasource is correct, test the datasource connection in the [jbos
 ![cli.png](images/postman.png)
 
 
-### Fix<a name="special"></a>
+### Special Fix<a name="fix"></a>
 
 There is currently a performance bug in the hive translator.  To fix you need to create an override in your VDB for the hive translator and set the **orderBy** option to **false**.  Then in your VDB select the overriden translator for the **HiveDS** model.
 
