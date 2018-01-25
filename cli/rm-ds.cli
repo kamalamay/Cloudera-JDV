@@ -1,4 +1,4 @@
 connect
-data-source disable --name=HiveDS
-data-source remove --name=HiveDS
+data-source disable --name=ImpalaDS
+data-source remove --name=ImpalaDS
 \q
