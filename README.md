@@ -22,7 +22,9 @@ This guide is a follow on to [Unlock your Hadoop data with Hortonworks and Red H
 
 * Clone the [jdv-cloudera](https://github.com/mechevarria/jdv-cloudera) repo to get some helper scripts with creating datasources on the JDV server.
 
-	`git clone https://github.com/mechevarria/jdv-cloudera`
+```bash
+git clone https://github.com/mechevarria/jdv-cloudera
+```
 
 * Run the `setup-ds.sh` script with the `add all` option to create and/or remove the module,driver and datasource.  You need to set the path to your **jboss home directory** in the **cli.sh** script  You will also need to tweak the **cli/add-ds.cli** for your specific impala connection information.  If successful you will see the followig ouput
 
@@ -96,13 +98,13 @@ This guide is a follow on to [Unlock your Hadoop data with Hortonworks and Red H
 
 ```sql
 SELECT
-		OrderDS.orders.order_id, 
-		OrderDS.orders.order_date, 
-		OrderDS.orders.order_customer_id, 
-		OrderDS.orders.order_status, 
-		TIMESTAMPADD(SQL_TSI_SECOND, cast((OrderDS.orders.order_date / 1000) AS integer), {ts'1970-01-01 23:59:59.0'}) AS order_date_formatted
-	FROM
-		OrderDS.orders
+    OrderDS.orders.order_id, 
+    OrderDS.orders.order_date, 
+    OrderDS.orders.order_customer_id, 
+    OrderDS.orders.order_status, 
+    TIMESTAMPADD(SQL_TSI_SECOND, cast((OrderDS.orders.order_date / 1000) AS integer), {ts'1970-01-01 23:59:59.0'}) AS order_date_formatted
+FROM
+    OrderDS.orders
 ```
 
 ![image](images/custom2.png)
