@@ -24,7 +24,7 @@ This guide is a follow on to [Unlock your Hadoop data with Hortonworks and Red H
 
 	`git clone https://github.com/mechevarria/jdv-cloudera`
 
-* Run the `cli.sh` script with the `add all` option to create and/or remove the module,driver and datasource.  You need to set the path to your **jboss home directory** in the **cli.sh** script  You will also need to tweak the **cli/add-ds.cli** for your specific impala connection information.
+* Run the `setup-ds.sh` script with the `add all` option to create and/or remove the module,driver and datasource.  You need to set the path to your **jboss home directory** in the **cli.sh** script  You will also need to tweak the **cli/add-ds.cli** for your specific impala connection information.
 
 ![image](images/cli.png)
 
@@ -72,7 +72,7 @@ This guide is a follow on to [Unlock your Hadoop data with Hortonworks and Red H
 
 ### Create the View Model<a name="view"></a>
 * Select **file -> new -> teiid metadata model**
-* **Name:** `OrderView`, **model type:** `view`. Select **transform from existing model** and **next**
+* **Name:** `OrderView`, **model type:** `View Model`. Select **transform from existing model** and **next**
 * Select the **OrderDS** model and select **finish**
 
 ![image](images/view1.png)
@@ -118,7 +118,7 @@ SELECT
 ### Consume the data service via REST<a name="consume"></a>
 * For this example, [Postman](https://www.getpostman.com/) was used to test
 * An example url for a local server is (http://localhost:8080/odata4/ImpalaVDB/OrderView/orders?$count=true)
-* You will need to set basic auth params (user/pass) for the **teiidUser**.
+* You will need to set basic auth params (user/pass) for the **teiidUser**
 * Under the **Authorization tab** select **Basic Auth** and then enter the credentials on the right
 * To filter the records, select **Params** next to the **Send** button and a param named **$filter** and its value to `order_date_formatted gt 2014-07-25T00:00:00.000Z`
 * This will filter results with a timestamp greater than 2014-07-25.  More details on OData parameters and usage can be found on [OData.org](http://www.odata.org)
