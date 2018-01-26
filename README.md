@@ -24,10 +24,11 @@ This guide is a follow on to [Unlock your Hadoop data with Hortonworks and Red H
 
 	`git clone https://github.com/mechevarria/jdv-cloudera`
 
-* Run the `setup-ds.sh` script with the `add all` option to create and/or remove the module,driver and datasource.  You need to set the path to your **jboss home directory** in the **cli.sh** script  You will also need to tweak the **cli/add-ds.cli** for your specific impala connection information.
+* Run the `setup-ds.sh` script with the `add all` option to create and/or remove the module,driver and datasource.  You need to set the path to your **jboss home directory** in the **cli.sh** script  You will also need to tweak the **cli/add-ds.cli** for your specific impala connection information.  If successful you will see the followig ouput
 
-![image](images/cli.png)
-
+```bash
+{"outcome" => "Success"}
+```
 
 * To verify the datasource is correct, test the datasource connection in the [jboss admin console](http://localhost:9990/console).
 
