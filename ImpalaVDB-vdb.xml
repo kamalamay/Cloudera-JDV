@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<vdb name="ImpalaVDB" version="1">
+<description/>
+<property name="validationDateTime" value="Thu Jan 25 17:50:47 EST 2018"/>
+<property name="validationVersion" value="8.12.13"/>
+<model name="OrderView" type="VIRTUAL">
+<metadata type="DDL"><![CDATA[
+
+CREATE VIEW orders (
+	order_id integer OPTIONS(NATIVE_TYPE 'INT', UPDATABLE 'FALSE', FIXED_LENGTH 'TRUE'),
+	order_date long,
+	order_customer_id integer OPTIONS(NATIVE_TYPE 'INT', UPDATABLE 'FALSE', FIXED_LENGTH 'TRUE'),
+	order_status string(255) OPTIONS(NATIVE_TYPE 'STRING', UPDATABLE 'FALSE'),
+	order_date_formatted timestamp,
+	CONSTRAINT id_pk PRIMARY KEY(order_id)
+) 
+AS
+	SELECT
+		OrderDS.orders.order_id, OrderDS.orders.order_date, OrderDS.orders.order_customer_id, OrderDS.orders.order_status, TIMESTAMPADD(SQL_TSI_SECOND, cast((OrderDS.orders.order_date / 1000) AS integer), {ts'1970-01-01 23:59:59.0'}) AS order_date_formatted
+	FROM
+		OrderDS.orders;
+
+]]></metadata>
+</model>
+<model name="OrderDS">
+<source connection-jndi-name="java:/ImpalaDS" name="OrderDS" translator-name="jdbc-simple"/>
+<metadata type="DDL"><![CDATA[
+
+CREATE FOREIGN TABLE orders (
+	order_id integer OPTIONS(NAMEINSOURCE '`order_id`', NATIVE_TYPE 'INT', FIXED_LENGTH 'TRUE'),
+	order_date long OPTIONS(NAMEINSOURCE '`order_date`', NATIVE_TYPE 'BIGINT'),
+	order_customer_id integer OPTIONS(NAMEINSOURCE '`order_customer_id`', NATIVE_TYPE 'INT', FIXED_LENGTH 'TRUE'),
+	order_status string(255) OPTIONS(NAMEINSOURCE '`order_status`', NATIVE_TYPE 'STRING'),
+	CONSTRAINT id_pk PRIMARY KEY(order_id)
+) OPTIONS(NAMEINSOURCE '`Impala`.`default`.`orders`', UPDATABLE 'TRUE');
+
+]]></metadata>
+</model>
+</vdb>
